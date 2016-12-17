@@ -4,6 +4,15 @@ import (
 	"testing"
 )
 
+func getCampaigns(t *testing.T) []*Campaign {
+	campaigns, err := createClient(t).GetCampaigns()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	return campaigns
+}
+
 func TestGetCampaigns(t *testing.T) {
 	campaigns, err := createClient(t).GetCampaigns()
 	if err != nil {
