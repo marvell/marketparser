@@ -52,3 +52,22 @@ func TestGetReportResults(t *testing.T) {
 		}
 	}
 }
+
+func TestGetReportDetails(t *testing.T) {
+	campaigns := getCampaigns(t)
+	if len(campaigns) > 0 {
+		reports, err := createClient(t).GetReports(campaigns[0].ID)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		if len(reports) > 0 {
+			reportDetails, err := createClient(t).GetReportDetails(campaigns[0].ID, reports[0].ID)
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			t.Logf("Report details: %#v", reportDetails)
+		}
+	}
+}

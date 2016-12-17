@@ -1,6 +1,7 @@
 package marketparser
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -9,7 +10,6 @@ import (
 	"net/http"
 	"net/url"
 	"os"
-	"bytes"
 	"time"
 )
 

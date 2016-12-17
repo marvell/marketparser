@@ -63,6 +63,28 @@ func (c *client) GetReports(campaignId int) ([]*Report, error) {
 	return reports, nil
 }
 
+func (c *client) GetReportDetails(campaignId, reportId int) (*Report, error) {
+	if campaignId < 1 || reportId < 1 {
+		return nil, fmt.Errorf("either campaign ID or report ID is empty")
+	}
+
+	resBody, err := c.get(fmt.Sprintf("/campaigns/%d/reports/%d.json", campaignId, reportId), 0)
+	if err != nil {
+		return nil, err
+	}
+
+	var res struct{
+		Response *Report `json:"response"`
+	}
+
+	err = json.Unmarshal(resBody, &res)
+	if err != nil {
+		return nil, fmt.Errorf("unmarshaling error: %s", err)
+	}
+
+	return res.Response, nil
+}
+
 // CreateReport creates a new report and returns its id or error.
 func (c *client) CreateReport(campaignId int) (int, error) {
 	if campaignId < 1 {
@@ -90,11 +112,11 @@ func (c *client) CreateReport(campaignId int) (int, error) {
 
 type ReportProductOffer struct {
 	ShopName         string `json:"shopName"`
-	Price            int `json:"price"`
-	DeliveryPrice    int `json:"deliveryPrice"`
-	InStock          bool `json:"inStock"`
-	Pickup           bool `json:"pickup"`
-	ProducerWarranty bool `json:"producerWarranty"`
+	Price            int    `json:"price"`
+	DeliveryPrice    int    `json:"deliveryPrice"`
+	InStock          bool   `json:"inStock"`
+	Pickup           bool   `json:"pickup"`
+	ProducerWarranty bool   `json:"producerWarranty"`
 	LinkToOffer      string `json:"linkToOffer"`
 }
 
@@ -121,17 +143,17 @@ func (c *client) GetReportResults(campaignId, reportId int) ([]*ReportProduct, e
 
 	reportProducts := make([]*ReportProduct, 0)
 
-	for page:=1; ;page++ {
+	for page := 1; ; page++ {
 		resBody, err := c.get(fmt.Sprintf("/campaigns/%d/reports/%d/results.json", campaignId, reportId), page)
 		if err != nil {
 			return nil, err
 		}
 
-		var res struct{
-			Response struct{
-				Total int `json:"total"`
+		var res struct {
+			Response struct {
+				Total    int              `json:"total"`
 				Products []*ReportProduct `json:"products"`
-				 } `json:"response"`
+			} `json:"response"`
 		}
 
 		err = json.Unmarshal(resBody, &res)

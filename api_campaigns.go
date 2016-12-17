@@ -98,17 +98,17 @@ type PriceStatus string
 
 var (
 	// PriceStatusError is an error status of the price
-	PriceStatusError                PriceStatus = "ERROR"
+	PriceStatusError PriceStatus = "ERROR"
 
 	// PriceStatusParsed is a status shows that parsing already done
-	PriceStatusParsed               PriceStatus = "PARSED"
+	PriceStatusParsed PriceStatus = "PARSED"
 
-	PriceStatusReadyToBeParsed      PriceStatus = "READY_TO_BE_PARSED"
-	PriceStatusSearchInProgress     PriceStatus = "SEARCH_IN_PROGRESS"
+	PriceStatusReadyToBeParsed  PriceStatus = "READY_TO_BE_PARSED"
+	PriceStatusSearchInProgress PriceStatus = "SEARCH_IN_PROGRESS"
 
-	// PriceStatusProcessedPriceStatus is a status shows that all of work under the price already done
-	PriceStatusProcessedPriceStatus             = "PROCESSED"
-	PriceStatusTooLowBalance        PriceStatus = "NOT_ENOUGH_BALANCE_TO_PROCESS"
+	// PriceStatusProcessed is a status shows that all of work under the price already done
+	PriceStatusProcessed     PriceStatus = "PROCESSED"
+	PriceStatusTooLowBalance PriceStatus = "NOT_ENOUGH_BALANCE_TO_PROCESS"
 )
 
 type PriceDetails struct {
