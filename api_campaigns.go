@@ -15,7 +15,7 @@ type Campaign struct {
 }
 
 // GetCampaigns returns list of campaigns or error. Uses /campaigns.json handler.
-func (c *client) GetCampaigns() ([]*Campaign, error) {
+func (c *Client) GetCampaigns() ([]*Campaign, error) {
 	var campaigns []*Campaign
 
 	for page := 1; ; page++ {
@@ -55,7 +55,7 @@ type PriceProduct struct {
 }
 
 // UpdatePrice updates price for the campaign
-func (c *client) UpdatePrice(campaignId int, products []*PriceProduct) error {
+func (c *Client) UpdatePrice(campaignId int, products []*PriceProduct) error {
 	if campaignId < 1 {
 		return fmt.Errorf("passed empty campaign ID: %d", campaignId)
 	}
@@ -121,7 +121,7 @@ type PriceDetails struct {
 }
 
 // GetPriceDetails returns price details or error
-func (c *client) GetPriceDetails(campaignId int) (*PriceDetails, error) {
+func (c *Client) GetPriceDetails(campaignId int) (*PriceDetails, error) {
 	if campaignId < 1 {
 		return nil, fmt.Errorf("passed empty campaign ID: %d", campaignId)
 	}

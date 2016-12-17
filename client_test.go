@@ -15,7 +15,7 @@ func getApiKey() (string, error) {
 	return apiKey, nil
 }
 
-func createClient(t *testing.T) *client {
+func createClient(t *testing.T) *Client {
 	apiKey, err := getApiKey()
 	if err != nil {
 		t.Fatal(err)

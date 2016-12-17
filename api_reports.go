@@ -29,7 +29,7 @@ type Report struct {
 	CountOkProducts        int          `json:"countOkProducts"`
 }
 
-func (c *client) GetReports(campaignId int) ([]*Report, error) {
+func (c *Client) GetReports(campaignId int) ([]*Report, error) {
 	if campaignId < 1 {
 		return nil, fmt.Errorf("passed empty campaign ID: %d", campaignId)
 	}
@@ -63,7 +63,7 @@ func (c *client) GetReports(campaignId int) ([]*Report, error) {
 	return reports, nil
 }
 
-func (c *client) GetReportDetails(campaignId, reportId int) (*Report, error) {
+func (c *Client) GetReportDetails(campaignId, reportId int) (*Report, error) {
 	if campaignId < 1 || reportId < 1 {
 		return nil, fmt.Errorf("either campaign ID or report ID is empty")
 	}
@@ -86,7 +86,7 @@ func (c *client) GetReportDetails(campaignId, reportId int) (*Report, error) {
 }
 
 // CreateReport creates a new report and returns its id or error.
-func (c *client) CreateReport(campaignId int) (int, error) {
+func (c *Client) CreateReport(campaignId int) (int, error) {
 	if campaignId < 1 {
 		return 0, fmt.Errorf("passed empty campaign ID: %d", campaignId)
 	}
@@ -136,7 +136,7 @@ type ReportProduct struct {
 }
 
 // GetReportResults returns list of products from the report.
-func (c *client) GetReportResults(campaignId, reportId int) ([]*ReportProduct, error) {
+func (c *Client) GetReportResults(campaignId, reportId int) ([]*ReportProduct, error) {
 	if campaignId < 1 || reportId < 1 {
 		return nil, fmt.Errorf("either campaign ID or report ID is empty")
 	}

@@ -15,19 +15,19 @@ import (
 
 const baseUrl = "http://cp.marketparser.ru/api/v2"
 
-type client struct {
+type Client struct {
 	apiKey string
 
 	httpClient *http.Client
 	logger     *log.Logger
 }
 
-func NewClient(apiKey string) (*client, error) {
+func NewClient(apiKey string) (*Client, error) {
 	if len(apiKey) == 0 {
 		return nil, fmt.Errorf("you must specified API-key")
 	}
 
-	return &client{
+	return &Client{
 		apiKey: apiKey,
 		httpClient: &http.Client{
 			Timeout: 15 * time.Second,
@@ -35,17 +35,17 @@ func NewClient(apiKey string) (*client, error) {
 	}, nil
 }
 
-func (c *client) DebugMode() {
+func (c *Client) DebugMode() {
 	c.logger = log.New(os.Stdout, "[marketparser] ", log.LstdFlags)
 }
 
-func (c *client) debug(f string, args ...interface{}) {
+func (c *Client) debug(f string, args ...interface{}) {
 	if c.logger != nil {
 		c.logger.Printf(f, args...)
 	}
 }
 
-func (c *client) prepareUrl(urlPath string, pageNumber int) (string, error) {
+func (c *Client) prepareUrl(urlPath string, pageNumber int) (string, error) {
 	u, err := url.Parse(baseUrl)
 	if err != nil {
 		return "", fmt.Errorf("wrong base URL: %s", err)
@@ -62,7 +62,7 @@ func (c *client) prepareUrl(urlPath string, pageNumber int) (string, error) {
 	return u.String(), nil
 }
 
-func (c *client) makeRequest(method string, u string, body io.Reader) (*http.Request, error) {
+func (c *Client) makeRequest(method string, u string, body io.Reader) (*http.Request, error) {
 	req, err := http.NewRequest(method, u, body)
 	if err != nil {
 		return nil, fmt.Errorf("can't create request: %s", err)
@@ -74,7 +74,7 @@ func (c *client) makeRequest(method string, u string, body io.Reader) (*http.Req
 	return req, nil
 }
 
-func (c *client) parseError(body []byte) error {
+func (c *Client) parseError(body []byte) error {
 	var errorResponse struct {
 		Code    int    `json:"code"`
 		Message string `json:"message"`
@@ -88,7 +88,7 @@ func (c *client) parseError(body []byte) error {
 	return fmt.Errorf("api error: %d: %s", errorResponse.Code, errorResponse.Message)
 }
 
-func (c *client) get(urlPath string, pageNumber int) ([]byte, error) {
+func (c *Client) get(urlPath string, pageNumber int) ([]byte, error) {
 	u, err := c.prepareUrl(urlPath, pageNumber)
 	if err != nil {
 		return nil, err
@@ -123,7 +123,7 @@ func (c *client) get(urlPath string, pageNumber int) ([]byte, error) {
 	return body, nil
 }
 
-func (c *client) post(urlPath string, requestBody []byte) ([]byte, error) {
+func (c *Client) post(urlPath string, requestBody []byte) ([]byte, error) {
 	u, err := c.prepareUrl(urlPath, 1)
 	if err != nil {
 		return nil, err
