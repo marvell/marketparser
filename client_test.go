@@ -26,7 +26,7 @@ func createClient(t *testing.T) *client {
 		t.Fatalf("failed to create Client: %s", err)
 	}
 
-	c.DebugMode()
+	//c.DebugMode()
 
 	return c
 }
